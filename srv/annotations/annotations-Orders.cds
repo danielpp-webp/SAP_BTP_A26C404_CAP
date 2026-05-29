@@ -14,7 +14,14 @@ annotate Orders with @UI.PresentationVariant: {
 };
 
 annotate Orders with {
-    orderID      @title: 'ID'            @Common.FieldControl: #Mandatory;
+    orderID      @title: 'ID'            @Common.FieldControl: {$edmJson: {$If: [
+        {$Eq: [
+            {$Path: 'HasActiveEntity'},
+            false
+        ]},
+        7, // Mandatory
+        1  // Read-only
+    ]}};
     email        @title: 'Email'         @Common.FieldControl: #Mandatory;
     firstName    @title: 'First name';
     lastName     @title: 'Last name';
@@ -26,10 +33,17 @@ annotate Orders with {
             {$Path: 'HasActiveEntity'},
             false
         ]},
-        1,
-        3
+        1, // Read-only
+        3  // Optional
     ]}};
-    imageURL     @title: 'Image';
+    imageURL     @title: 'Image'         @Common.FieldControl: {$edmJson: {$If: [
+        {$Eq: [
+            {$Path: 'HasActiveEntity'},
+            false
+        ]},
+        3, // Optional
+        1  // Read-only
+    ]}};
     imageThumb   @title: 'Image'         @UI.IsImageURL;
 };
 
@@ -111,44 +125,44 @@ annotate Orders with @UI.Facets: [
 
 annotate Orders with @UI.LineItem: [
     {
-        $Type: 'UI.DataField',
-        Value: orderID,
-        @UI.Importance : #High
+        $Type         : 'UI.DataField',
+        Value         : orderID,
+        @UI.Importance: #High
     },
     {
-        $Type: 'UI.DataField',
-        Value: email,
-        @UI.Importance : #High
+        $Type         : 'UI.DataField',
+        Value         : email,
+        @UI.Importance: #High
     },
     {
-        $Type: 'UI.DataField',
-        Value: firstName,
-        @UI.Importance : #High
+        $Type         : 'UI.DataField',
+        Value         : firstName,
+        @UI.Importance: #High
     },
     {
-        $Type: 'UI.DataField',
-        Value: lastName,
-        @UI.Importance : #High
+        $Type         : 'UI.DataField',
+        Value         : lastName,
+        @UI.Importance: #High
     },
     {
-        $Type: 'UI.DataField',
-        Value: country_countryTwoLetterISOCode,
-        @UI.Importance : #Medium
+        $Type         : 'UI.DataField',
+        Value         : country_countryTwoLetterISOCode,
+        @UI.Importance: #Medium
     },
     {
-        $Type: 'UI.DataField',
-        Value: createdOn,
-        @UI.Importance : #Medium
+        $Type         : 'UI.DataField',
+        Value         : createdOn,
+        @UI.Importance: #Medium
     },
     {
-        $Type: 'UI.DataField',
-        Value: deliveryDate,
-        @UI.Importance : #Medium
+        $Type         : 'UI.DataField',
+        Value         : deliveryDate,
+        @UI.Importance: #Medium
     },
     {
-        $Type: 'UI.DataField',
-        Value: orderStatus_code,
-        @UI.Importance : #High
+        $Type         : 'UI.DataField',
+        Value         : orderStatus_code,
+        @UI.Importance: #High
     },
     {
         $Type: 'UI.DataField',
@@ -156,9 +170,9 @@ annotate Orders with @UI.LineItem: [
         @UI.Hidden
     },
     {
-        $Type: 'UI.DataField',
-        Value: imageThumb,
-        @UI.Importance : #High
+        $Type         : 'UI.DataField',
+        Value         : imageThumb,
+        @UI.Importance: #High
     }
 ];
 

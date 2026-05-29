@@ -7,7 +7,7 @@ using {
 } from '@sap/cds/common';
 
 entity Orders : cuid, managed {
-    orderID            : String(36);
+    orderID            : Int64;
     email              : String(30);
     firstName          : String(30);
     lastName           : String(30);
